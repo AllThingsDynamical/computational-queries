@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Gaussian processes and PDEs &#8212; Computational curiosities</title>
+    <title>1 - Gaussian processes and PDEs &#8212; Computational curiosities</title>
   
   
   
@@ -57,6 +57,8 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'text/spde-gp';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -181,7 +183,7 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Gaussian processes</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Gaussian processes and PDEs</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">1 - Gaussian processes and PDEs</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Convex optimization</span></p>
 <ul class="nav bd-sidenav">
@@ -326,7 +328,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Gaussian processes and PDEs</h1>
+    <h1>1 - Gaussian processes and PDEs</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -341,7 +343,62 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="gaussian-processes-and-pdes">
-<h1>Gaussian processes and PDEs<a class="headerlink" href="#gaussian-processes-and-pdes" title="Link to this heading">#</a></h1>
+<h1>1 - Gaussian processes and PDEs<a class="headerlink" href="#gaussian-processes-and-pdes" title="Link to this heading">#</a></h1>
+<p>The objective of this article is to illustrate how solving PDE constrained inverse problems and doing Gaussian process regression are not so different after all (atleast for some priors).
+To illustrate this connection, we will consider the case of a linear, elliptic, second order partial differential equation.</p>
+<div class="tip admonition">
+<p class="admonition-title">Definition: Second order linear elliptic PDE</p>
+<p>d</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Definition: Gaussian process</p>
+<p>d</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Definition: Gaussian process regression</p>
+<p>d</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Definition: Source estimation of elliptic PDE</p>
+<p>d</p>
+</div>
+<p>It is clear from this juxtaposition, that these two problems are the same after all.
+So, at this point we inquire : How to make this connection explicit?
+To do so, we will consider the integral representation of the solution to the ellptic PDE.</p>
+<div class="math notranslate nohighlight">
+\[u(x) = \int_{\Omega} d\mu(y) \; K(x,y) \; a(y). \]</div>
+<p>Furthermore, assume that the measure <span class="math notranslate nohighlight">\(\mu\)</span> is empirical. That is,</p>
+<div class="math notranslate nohighlight">
+\[d\mu(y) := \frac{1}{M}\sum_{i=1}^M \delta(x-\hat{\Omega}_i). \]</div>
+<p>Then, we can show that the solution to the elliptic PDE is:</p>
+<div class="math notranslate nohighlight">
+\[u(x) = \sum_{i=1}^M \frac{a(\hat{\Omega}_i)}{M} K(x, \hat{\Omega}_i).\]</div>
+<p>Notice that, this is just the RKHS-optimal solution given by the <a class="reference external" href="https://en.wikipedia.org/wiki/Representer_theorem">representer theorem</a>. Notice that the point evaluations of <span class="math notranslate nohighlight">\(a\)</span>, defined by:</p>
+<div class="math notranslate nohighlight">
+\[
+    a(\hat{\Omega}_i) := \int_{\Omega} dx \; a(x) \; \delta(x,\hat{\Omega}_i), 
+\]</div>
+<p>have to be estimated by solving a regularized linear least squares problem. Denoting by <span class="math notranslate nohighlight">\(A := \{ \frac{1}{M}a(\hat{\Omega}_i)\}_{i=1}^M\)</span>, this problem is given by</p>
+<div class="math notranslate nohighlight">
+\[
+    A = \arg \min_{S \in \mathbb{R}^M} \frac{1}{2}\| K(\hat{\Omega}, \hat{\Omega}) S - u(\hat{\Omega})\|_2^2 + \lambda \|S\|_2^2.
+\]</div>
+<p>The corresponding solution is known in closed form:</p>
+<div class="math notranslate nohighlight">
+\[
+    A = (K(\hat{\Omega}, \hat{\Omega}) + \lambda I)^{-1} u(\hat{\Omega}).
+\]</div>
+<p>Therefore,</p>
+<div class="math notranslate nohighlight">
+\[
+    u(x) = \sum_{i=1}^M K(x,\hat{\Omega}_i) [(K(\hat{\Omega}, \hat{\Omega}) + \lambda I)^{-1} u(\hat{\Omega})]_i. 
+\]</div>
+<p>Notice, that this is equal to the expectation of a conditioned Gaussian process.</p>
+<p>To make this equivalance stronger, we have to redefine <span class="math notranslate nohighlight">\(a\)</span> as an <span class="math notranslate nohighlight">\(L^2\)</span> Gaussian random  field.</p>
+<div class="tip admonition">
+<p class="admonition-title">Definition: Gaussian random field</p>
+<p>d</p>
+</div>
 </section>
 
     <script type="text/x-thebe-config">
