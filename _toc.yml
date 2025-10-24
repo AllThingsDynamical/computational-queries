@@ -25,5 +25,5 @@ parts:
     - file: text/ensemble_kalman_filter
 
   - caption: "Dynamical low rank approximation"
-    chaptes:
+    chapters:
     - file: text/dlra-intro
