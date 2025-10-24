@@ -23,3 +23,7 @@ parts:
     - file: text/cubature_kalman_filters
     - file: text/gaussian_mixture_filters
     - file: text/ensemble_kalman_filter
+
+  - caption: "Dynamical low rank approximation"
+    chaptes:
+    - file: text/dlra-intro
