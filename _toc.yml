@@ -12,7 +12,14 @@ parts:
   - caption: "Convex optimization"
     chapters:
     - file: text/hilbert-spaces
+    - file: text/banach-fixed-point
+    - file: text/krasnoselski_mann
 
   - caption: "Data assimilation"
     chapters:
     - file: text/kalman-filter
+    - file: text/extended_kalman_filter
+    - file: text/unscented_kalman_filter
+    - file: text/cubature_kalman_filters
+    - file: text/gaussian_mixture_filters
+    - file: text/ensemble_kalman_filter
