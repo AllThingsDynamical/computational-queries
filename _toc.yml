@@ -27,3 +27,7 @@ parts:
   - caption: "Dynamical low rank approximation"
     chapters:
     - file: text/dlra-intro
+
+  - caption: "Tensor Networks"
+    chapters:
+      - file: text/tensor-networks
