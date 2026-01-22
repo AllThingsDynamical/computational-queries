@@ -5,29 +5,6 @@ format: jb-book
 root: text/main
 
 parts:
-  - caption: "Gaussian processes"
+  - caption: "Convex analysis"
     chapters:
-    - file: text/spde-gp
-
-  - caption: "Convex optimization"
-    chapters:
-    - file: text/hilbert-spaces
-    - file: text/banach-fixed-point
-    - file: text/krasnoselski_mann
-
-  - caption: "Data assimilation"
-    chapters:
-    - file: text/kalman-filter
-    - file: text/extended_kalman_filter
-    - file: text/unscented_kalman_filter
-    - file: text/cubature_kalman_filters
-    - file: text/gaussian_mixture_filters
-    - file: text/ensemble_kalman_filter
-
-  - caption: "Dynamical low rank approximation"
-    chapters:
-    - file: text/dlra-intro
-
-  - caption: "Tensor Networks"
-    chapters:
-      - file: text/tensor-networks
+    - file: text/convex_analysis/metric_spaces
